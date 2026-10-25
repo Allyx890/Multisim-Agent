@@ -32,7 +32,10 @@ msa new NAME --dir WORKDIR      # scaffold NAME.cir (reference netlist) + NAME.p
    ```
    build → lint (geometry) → Multisim opens it → verify layers A–E. Exit code 0 + "ALL CHECKS PASSED" is
    required. On FAIL, use the table below, fix, re-run. Then look at `NAME.png` once (labels, aesthetics).
-5. Deliver the `.ms14` (and the `.png`/compare plot if useful). `--deliver DIR` copies them for you.
+5. Check the requested circuit behavior as well as simulator agreement. Two simulators can agree on a
+   distorted output. For the complete AM link, also run `examples/am_link/validate_recovery.py` after
+   `check`; it rejects inadequate output, harmonic distortion and failure to recover the known 5 kHz tone.
+6. Deliver the `.ms14` (and the `.png`/compare plot if useful). `--deliver DIR` copies them for you.
 
 Choose `--tran` long enough to reach steady state plus a few periods of the slowest signal (verify compares the
 last 50 %); `--dt` ≤ period/40 of the fastest signal (1e-8 for MHz, 1e-6 for kHz).
@@ -88,7 +91,7 @@ d.text("Title (any language)", 36, 27, size=12, bold=True)
 d.sim_settings(tstop=10e-3, tmax=5e-6, ic="auto")
 print(d.save("NAME"))                            # path → NAME.xml (+ NAME.meta.json); `check` needs this print
 ```
-Templates now: `R_h R_v C_h C_v L_h L_v NPN3904 NPN3904m NPN2222 VDC VAC PULSE GND` — run `msa parts` for
+Templates now: `R_h R_v C_h C_v L_h L_v D4148_h NPN3904 NPN3904m NPN2222 VDC VAC PULSE GND` — run `msa parts` for
 geometry. To add one (diode, op-amp, ...): `python scripts/tplfind.py 1N4148`, pick an un-rotated ("ident")
 instance with the orientation you need, add it to `msgen.TPL`, then add a tiny test circuit and run `msa check`.
 Read `references/format.md` before touching anything below msgen.
@@ -104,7 +107,7 @@ Read `references/format.md` before touching anything below msgen.
 | `msa sim FILE.ms14 T` / `--op` | Multisim's simulator on the probes → CSV / DC values |
 | `msa simset FILE [--tmax --tstop --ic]` | show / fix the simulation settings stored in a file |
 | `msa unpack/pack` | `.ms14` ⇄ XML |
-| `msa selftest [--quick]` | unit + lint tests; full run also builds and verifies 4 circuits and 3 broken ones |
+| `msa selftest [--quick]` | unit + lint tests; full run also builds and verifies 5 circuits and 3 broken ones |
 
 ## Limits
 

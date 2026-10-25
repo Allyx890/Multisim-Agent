@@ -1,0 +1,78 @@
+{
+  "window_s": [
+    0.001,
+    0.002
+  ],
+  "plotted_window_s": [
+    0.0012,
+    0.002
+  ],
+  "max_step_s": 1e-08,
+  "metrics": {
+    "out": {
+      "Multisim": {
+        "mean": -0.0008222104977217245,
+        "vpp": 11.102021899244516,
+        "f": 2630602.858929857
+      },
+      "ngspice": {
+        "mean": -0.00019765205449288033,
+        "vpp": 11.26529701711911,
+        "f": 2626206.8090461735
+      }
+    },
+    "lpf": {
+      "Multisim": {
+        "mean": 1.803352340771409,
+        "vpp": 1.843934729207915,
+        "f": 4996.451589413624
+      },
+      "ngspice": {
+        "mean": 1.8374737081950268,
+        "vpp": 1.8819954511034287,
+        "f": 4997.446180140567
+      }
+    },
+    "audio": {
+      "Multisim": {
+        "mean": 0.0025732034741287467,
+        "vpp": 2.23443506380145,
+        "f": 4998.765449370823
+      },
+      "ngspice": {
+        "mean": 0.0026727657171572083,
+        "vpp": 2.278814801317629,
+        "f": 5001.730915254525
+      }
+    }
+  },
+  "audio_recovery": {
+    "Multisim": {
+      "vpp": 2.2329190716852656,
+      "thd_harmonics_2_to_5": 0.011212602786655718,
+      "residual_to_5khz_sine": 0.013433752980726094,
+      "limits": {
+        "vpp_min": 1.0,
+        "thd_max": 0.03,
+        "residual_max": 0.05
+      },
+      "pass": true
+    },
+    "ngspice": {
+      "vpp": 2.27850967,
+      "thd_harmonics_2_to_5": 0.010537576619727347,
+      "residual_to_5khz_sine": 0.013307373733315635,
+      "limits": {
+        "vpp_min": 1.0,
+        "thd_max": 0.03,
+        "residual_max": 0.05
+      },
+      "pass": true
+    }
+  },
+  "Multisim_csv_sha256": {
+    "am_link_V_PR1.csv": "82c5311f69a82fea417159c71761dca6eece8dfd6f3d03c0214b13fdc460bd6b",
+    "am_link_V_PR3.csv": "7641a69db3fefdd1793f1b0c89ca3483bcd63dd927f4cb0fd957379721e6d555",
+    "am_link_V_PR4.csv": "98cd356a66d9fee548f6ad68d3209412c8d6af7b079f0d7bf119b96fd4770d04"
+  }
+}

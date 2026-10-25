@@ -117,6 +117,37 @@ def netcheck_catches_reversed_source():
 
 
 @test
+def netcheck_catches_reversed_diode():
+    """The new detector template is polar: A/K must not be treated like resistor pins."""
+    fd, cir = tempfile.mkstemp(suffix=".cir"); os.close(fd)
+    open(cir, "w").write("detector\nV1 in 0 SIN(0 2 1k)\nR1 in rf 1k\nD1 rf det dm\nR2 det 0 10k\n.end\n")
+    net = "in s V1 1\nin s R1 1\nrf s R1 2\nrf s D1 A\ndet s D1 K\ndet s R2 1\n0 s R2 2\n0 s V1 2\n0 s Ground 1\n"
+    try:
+        assert netcheck.check(net, cir)[0] == 0
+        reversed_net = net.replace("rf s D1 A", "rf s D1 K").replace("det s D1 K", "det s D1 A")
+        assert netcheck.check(reversed_net, cir)[0] > 0
+    finally:
+        os.remove(cir)
+
+
+@test
+def audio_quality_gate_rejects_distortion():
+    """Agreement alone is insufficient: reject clipped or wrong-frequency recovered audio."""
+    import importlib.util
+    import numpy as np
+    path = os.path.join(HERE, '..', 'examples', 'am_link', 'validate_recovery.py')
+    spec = importlib.util.spec_from_file_location('am_recovery_gate', path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    t = np.linspace(1.2e-3, 2e-3, 8001)
+    assert module.assess(t, .7*np.sin(2*np.pi*5000*t))['pass']
+    clipped = np.clip(1.2*np.sin(2*np.pi*5000*t), -.65, .65)
+    result = module.assess(t, clipped)
+    assert result['vpp'] > 1 and not result['pass']
+    assert not module.assess(t, .7*np.sin(2*np.pi*7000*t))['pass']
+
+
+@test
 def parse_cir_values():
     fd, cir = tempfile.mkstemp(suffix=".cir"); os.close(fd)
     open(cir, "w").write("title\n.param amp=2 f=5k\nV1 a 0 SIN(0 {amp} {f})\nV2 b 0 DC 12\nR1 a b 4.7k\n"

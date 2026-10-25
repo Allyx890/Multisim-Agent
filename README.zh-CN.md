@@ -8,10 +8,27 @@ Multisim 没有公开的文件格式，也没有摆放元件的接口，所以�
 这个技能让智能体直接写出真正的 `.ms14` 文件：元件对齐栅格，导线横平竖直，有连接点、探针、示波器和合理的仿真设置。
 交付之前，还会用 Multisim 本身和独立的 ngspice 仿真做核对。
 
-| | |
+## 主示例：完整 AM 发射与接收链路
+
+**71 个电气元件，一个真正连通的发射机和接收机。** 信号由三极管振荡器产生，经过集电极调幅和电阻衰减通道，再由 LC 选频、二极管包络检波和两级音频电路恢复。这是在原有 50 元件发射机上接入实际接收电路，检波器的输入来自发射机输出。
+
+![Multisim 导出的完整 AM 发射与接收电路](docs/images/am_link.png)
+
+[生成脚本](examples/am_link/build.py) · [参考网表](examples/am_link/circuit.cir) · [复现说明](examples/am_link/README.md) · [验证报告](docs/examples/am_link_report.md)
+
+在 Multisim 和 ngspice 中分别运行同一电路，比较 5 个探针节点。下图依次显示射频输出、滤波后的检波电压和恢复音频，保留两套仿真的实际电压及时间刻度。
+
+![两套仿真器的射频输出、检波电压和恢复音频](docs/images/am_link_results.png)
+
+这是 5 kHz 单音、电阻衰减通道、1 kΩ 线路输出的传导链路演示；尚不代表无线距离、扬声器功率或完整语音频段测试。
+
+### 其他示例
+
+| 示例 | 展示的能力 |
 |---|---|
-| ![共射放大器](docs/images/ce_amplifier.png) | ![AM 发射机验证](docs/images/am_transmitter_verify.png) |
-| 生成的原理图（Multisim 打开后导出） | 验证：50 个元件的 AM 发射机，Multisim（虚线）与 ngspice 对比 |
+| [AM 发射机](examples/am_transmitter) | 50 元件的振荡、推动、丙类功放、匹配网络和集电极调幅 |
+| [西勒振荡器](examples/seiler_oscillator) | 高频起振、谐振回路、缓冲与载波测量 |
+| [共射放大器](examples/ce_amplifier) | 适合入门的直流偏置、信号耦合与电压放大 |
 
 ## 为什么可信
 
@@ -26,7 +43,7 @@ Multisim 没有公开的文件格式，也没有摆放元件的接口，所以�
 | D | 直流工作点：每个探针处 Multisim 和 ngspice 一致 |
 | E | 瞬态：直流分量、峰峰值、频率、包络、调幅指数、包络形状，Multisim 和 ngspice 一致 |
 
-测试套件会生成 4 个必须通过的电路（RC 网络、共射放大器、2.63 MHz 振荡器、50 个元件的 AM 发射机），
+测试套件会生成 5 个必须通过的电路（RC 网络、共射放大器、2.63 MHz 振荡器、AM 发射机、完整 AM 链路），
 以及 3 个故意做错的电路（电源接反、数值错、没设时间步长），它们必须在对应的那一层被判 FAIL。
 
 ## 环境要求

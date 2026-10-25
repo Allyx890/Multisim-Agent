@@ -9,10 +9,33 @@ to import (parts dumped in a heap, wires everywhere). This skill lets an agent w
 grid, orthogonal wires, junction dots, probes, an oscilloscope and sensible simulation settings — then verifies it
 with Multisim itself and an independent ngspice run before anything is handed over.
 
-| | |
+## Featured circuit: a complete AM link
+
+**71 electrical components. One connected transmitter and receiver.** The RF signal comes from a transistor
+oscillator, passes through collector modulation and a resistive channel, and is recovered by a tuned input,
+a diode detector and a two-transistor audio stage. The example adds a receiver to the 50-part transmitter
+instead of driving the detector with an ideal AM source.
+
+![Complete AM transmitter and receiver, exported by Multisim](docs/images/am_link.png)
+
+[Build script](examples/am_link/build.py) · [Reference netlist](examples/am_link/circuit.cir) ·
+[Reproduce this example](examples/am_link/README.md) · [Verification report](docs/examples/am_link_report.md)
+
+The same circuit is checked in Multisim and ngspice at five probe nodes. The plot follows the signal from
+RF output through detection to recovered audio, using the actual voltage and time scales.
+
+![Transmitted RF, filtered detector output and recovered audio in both simulators](docs/images/am_link_results.png)
+
+This is a 5 kHz single-tone simulation with a resistive channel and a 1 kohm line output. It is a conducted
+modulation/demodulation demonstration, not a wireless-range or speaker-power test.
+
+### Other examples
+
+| Example | What it demonstrates |
 |---|---|
-| ![CE amplifier](docs/images/ce_amplifier.png) | ![AM transmitter verification](docs/images/am_transmitter_verify.png) |
-| generated schematic, opened by Multisim | verification: Multisim (dashed) vs ngspice for a 50-part AM transmitter |
+| [AM transmitter](examples/am_transmitter) | 50-part oscillator, driver, class-C PA, matching network and collector modulator |
+| [Seiler oscillator](examples/seiler_oscillator) | RF startup, resonant tank, buffering and carrier frequency |
+| [Common-emitter amplifier](examples/ce_amplifier) | A smaller starting point: DC bias, coupling and voltage gain |
 
 ## Why trust the output
 
@@ -27,8 +50,8 @@ with Multisim itself and an independent ngspice run before anything is handed ov
 | D | DC operating point: Multisim vs ngspice at every probe |
 | E | transient: DC level, peak-to-peak, frequency, envelope / modulation index / envelope shape, Multisim vs ngspice |
 
-The test-suite builds four circuits (RC network, common-emitter amplifier, 2.63 MHz oscillator, 50-part AM
-transmitter) that must pass, and three deliberately broken ones (reversed source, wrong value, missing time-step
+The test-suite builds five circuits (RC network, common-emitter amplifier, 2.63 MHz oscillator, AM
+transmitter and complete AM link) that must pass, and three deliberately broken ones (reversed source, wrong value, missing time-step
 setting) that must fail in the right layer.
 
 ## Requirements

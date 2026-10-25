@@ -150,7 +150,9 @@ W(C24["1"], V3["1"], via=[(1944, 288)], net="aud")
 
 # ================= scope: A = output, B = Vpa (open minus terminals = ground reference) =================
 X = d.scope(at=(1611, 270), pin="1")
-W(jo2, X["1"], via=[(1611, 288)])
+jout_scope = J(1611, 288)
+W(jo2, jout_scope)
+W(jout_scope, X["1"])
 W(X["2"], jvb, via=[(1647, 306)])
 
 # ================= text =================
@@ -167,4 +169,5 @@ d.probe("PR2", 1530, 162, show=False, node="vpa")     # PA collector supply = mo
 # tmax 10 ns for the 2.63 MHz carrier (the default "calculate" garbles the envelope in Grapher);
 # ic="auto": the 10 uF coupling cap would take tens of ms to charge from zero.
 d.sim_settings(tstop=1.2e-3, tmax=1e-8, ic="auto")
-print(d.save("am_transmitter"))
+if __name__ == "__main__":
+    print(d.save("am_transmitter"))

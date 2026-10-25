@@ -78,6 +78,19 @@ def am_transmitter(tmp):
 
 
 @case
+def am_link(tmp):
+    d = os.path.join(EX, "am_link")
+    code, rows, out = check(os.path.join(d, "build.py"), os.path.join(d, "circuit.cir"), "--tran", "2e-3", "--dt", "1e-8")
+    if code == 0:
+        r = subprocess.run([PY, os.path.join(d, "validate_recovery.py")], capture_output=True, text=True,
+                           encoding="utf-8", errors="replace")
+        code = r.returncode
+        out += r.stdout + r.stderr
+        rows.append(("F", "5 kHz recovery quality", "PASS" if code == 0 else "FAIL"))
+    return "pass", (code, rows, out)
+
+
+@case
 def neg_reversed_source(tmp):
     """.cir says the source is the other way round -> layer A must FAIL."""
     b, c = scaffold(tmp, "n_rev", edit_cir=lambda s: s.replace("V1 in 0 SIN", "V1 0 in SIN"))

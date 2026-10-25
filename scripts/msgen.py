@@ -35,6 +35,7 @@ TPL = {
     "VDC": ("LowPassFilter.xml", "V2"),
     "PULSE": ("Analog_SpeechFilter.xml", "V5"),
     "VAC": ("LowPassFilter.xml", "V1"),          # 正弦电压源，值写 (峰值V, 频率Hz)
+    "D4148_h": ("Analog_PhaseControlledRectifier.xml", "D1"),  # A on left, K on right
 }
 # 图纸：尺寸由 CircPrefs 里的 "Sheet Size/Width/Height…" 几个键决定（Multisim 按它重画图框），
 # 图框线条本身存在 Background 里，两处都从同尺寸样例复制。PageWidth/Height 只是打印设置。
