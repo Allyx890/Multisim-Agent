@@ -1,0 +1,15 @@
+* Common-emitter amplifier, 2N3904 (reference netlist for build.py)
+.include models.lib
+V1 vcc 0 DC 12
+V2 in 0 SIN(0 10m 1k)
+C1 in b 10u
+R1 vcc b 47k
+R2 b 0 10k
+Q1 c b e 2N3904__BJT_NPN__2
+R3 vcc c 4.7k
+R4 e 0 1k
+C2 e 0 100u
+C3 c out 10u
+R5 out 0 10k
+.tran 5u 10m
+.end

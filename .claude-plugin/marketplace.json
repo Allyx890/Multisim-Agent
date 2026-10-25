@@ -1,0 +1,14 @@
+{
+  "name": "multisim-agent",
+  "description": "Multisim Agent: let AI agents draw and verify NI Multisim schematics.",
+  "owner": { "name": "Allyx890", "url": "https://github.com/Allyx890" },
+  "plugins": [
+    {
+      "name": "multisim-agent",
+      "source": "./",
+      "description": "Generate correct, tidy NI Multisim 14 schematics (.ms14) and verify them against ngspice.",
+      "category": "engineering",
+      "tags": ["multisim", "electronics", "spice", "schematic"]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*_verify/
+*.meta.json
+*.ms14
+*.net
+_ngs_*
+_ngw_*
+examples/**/*.xml
+examples/**/*.png

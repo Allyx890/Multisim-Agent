@@ -1,0 +1,24 @@
+* Seiler oscillator 2.63 MHz + emitter-follower buffer (reference netlist for build.py)
+* Element names == Multisim reference designators; transistor model = Multisim's own (models.lib)
+.include models.lib
+V1 vcc 0 DC 9
+Q1 vcc osc_b osc_e 2N3904__BJT_NPN__2
+R3 vcc osc_b 10k
+R4 osc_b 0 6.8k
+R5 osc_e 0 3.9k
+C10 osc_b osc_e 1n
+C11 osc_e 0 1n
+C12 osc_b osc_t 180p
+L1 osc_t lx 22u
+RL1 lx 0 7.3
+C13 osc_t 0 30p
+C14 osc_t 0 4p
+C15 osc_e buf_b 47p
+R6 vcc buf_b 47k
+R7 buf_b 0 47k
+Q2 vcc buf_b buf_e 2N3904__BJT_NPN__2
+R8 buf_e 0 1k
+C16 buf_e out 10n
+RLOAD out 0 1k
+.tran 10n 300u 0 10n uic
+.end

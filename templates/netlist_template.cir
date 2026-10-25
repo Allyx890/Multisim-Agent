@@ -1,0 +1,13 @@
+* __NAME__ — reference netlist (the "answer key" verify compares Multisim against)
+* Rules:
+*  - element names == Multisim reference designators (R1, C1, V1, Q1 ...)
+*  - transistors: use the model name/text printed by `msa.py models NPN3904` so ngspice == Multisim
+*  - sources: V1 n+ n- DC 9   |   V1 n+ n- SIN(0 <peak> <freq>)   (node order = Multisim pin 1, pin 2)
+*  - analysis lines here are ignored by verify (it runs its own .op/.tran), keep them for your own runs
+V1 in 0 SIN(0 1 1k)
+R1 in mid 1k
+R2 mid 0 1k
+R3 mid out 1.6k
+C1 out 0 100n
+.tran 2u 5m
+.end

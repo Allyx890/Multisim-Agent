@@ -1,0 +1,11 @@
+{
+  "name": "multisim-agent",
+  "displayName": "Multisim Agent",
+  "version": "0.1.0",
+  "description": "Generate correct, tidy NI Multisim 14 schematics (.ms14) from a SPICE netlist and prove them right: Multisim's own netlist and simulation are checked against an ngspice reference. Windows + Multisim 14.x.",
+  "author": { "name": "Allyx890", "url": "https://github.com/Allyx890" },
+  "homepage": "https://github.com/Allyx890/Multisim-Agent",
+  "repository": "https://github.com/Allyx890/Multisim-Agent",
+  "license": "MIT",
+  "keywords": ["multisim", "ni-multisim", "ms14", "schematic", "spice", "ngspice", "circuit", "electronics", "simulation"]
+}

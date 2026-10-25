@@ -1,0 +1,60 @@
+* Ch6 Q7: 2.63 MHz high-level AM transmitter (collector modulation), 5 kHz tone, 50 ohm load
+.include models.lib
+.param vaud=2.0
+V1 vcc9 0 DC 9
+V2 vcc12 0 DC 12
+* --- Seiler oscillator (same as Ch5 Q6) ---
+Q1 vcc9 osc_b osc_e 2N3904__BJT_NPN__2
+R3 vcc9 osc_b 10k
+R4 osc_b 0 6.8k
+R5 osc_e 0 3.9k
+C10 osc_b osc_e 1n
+C11 osc_e 0 1n
+C12 osc_b osc_t 180p
+L1 osc_t lx 22u
+RL1 lx 0 7.3
+C13 osc_t 0 30p
+C14 osc_t 0 4p
+* --- buffer (emitter follower) ---
+C15 osc_e buf_b 47p
+Q2 vcc9 buf_b buf_e 2N3904__BJT_NPN__2
+R6 vcc9 buf_b 47k
+R7 buf_b 0 47k
+R8 buf_e 0 1k
+* --- drive attenuator ---
+C16 buf_e att 100n
+R9 att drv_in 390
+R10 drv_in 0 620
+* --- driver: CE amp Q3 + emitter follower Q4 ---
+C17 drv_in q3_b 100n
+R11 vcc12 q3_b 15k
+R12 q3_b 0 2.7k
+Q3 q3_c q3_b q3_e 2N3904__BJT_NPN__2
+R13 vcc12 q3_c 470
+R14 q3_e q3_e2 47
+R15 q3_e2 0 51
+C18 q3_e2 0 1u
+Q4 vcc12 q3_c q4_e 2N2222A__BJT_NPN__2
+R16 q4_e 0 220
+* --- class-C PA, collector modulated ---
+C19 q4_e pa_b 100n
+L2 pa_b pa_br 100u
+R17 pa_br 0 4.7
+Q5 pa_c pa_b 0 2N2222A__BJT_NPN__2
+L3 vpa pa_c 100u
+C20 vpa 0 10n
+* --- pi matching network -> 50 ohm ---
+C21 pa_c 0 1.65n
+C22 pa_c pi 100n
+L4 pi out 3.3u
+C23 out 0 2.32n
+RL out 0 50
+* --- series modulator: emitter follower Q6 supplies Vpa = Vcc0 + audio ---
+R18 vcc12 mod_b 6.8k
+R19 mod_b 0 5.6k
+V3 aud 0 SIN(0 {vaud} 5k)
+C24 aud mod_b 10u
+Q6 vcc12 mod_b vpa 2N3904__BJT_NPN__2
+R20 vpa 0 1k
+.tran 10n 1.2m 0 10n
+.end
