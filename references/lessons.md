@@ -81,3 +81,16 @@ Most of these cost hours. The tools now guard against each; the list explains *w
 - Mirrored templates (e.g. NPN3904m, base on the right) have different pin offsets — always route from `Part.xy()`.
 - Sheet size lives in `CircPrefs` (`Sheet Size/Width/Height…`), not `PageWidth/PageHeight`; `Doc(sheet=…)` sets both
   the keys and the border drawing. PNG export size = sheet size (A 960×720, B 1536×960, C 2016×1536).
+
+## Superheterodyne receivers (mixer + local oscillator)
+
+- The two simulators' free-running oscillators differ by ~0.3 %. The IF is a *difference* frequency, so its relative
+  error is amplified by f_LO/f_IF (3.1 MHz / 465 kHz: 0.28 % → 1.87 %) and fails the default 1 % frequency check
+  although every amplitude and envelope matches. Re-run `verify ... --f-tol 0.02` and state why in the report.
+- Tune oscillators with ngspice's default (trapezoidal) integration. Tuning with `.options method=gear` put the LO
+  ~1 % low versus Multisim, so the IF landed on the slope of the IF tanks and all IF/audio amplitudes disagreed by ~10 %.
+- A diode detector fed through a coupling cap + resistor to ground turns into a clamp (its DC current can only return
+  through that resistor) and loses most of its efficiency. Put the diode directly across the collector tank and
+  return the detector RC to Vcc (AC ground).
+- With an LO that starts from the operating point, coupling caps downstream see a DC step when the IF signal
+  appears; keep audio coupling time constants to a few ms and run long enough (4 ms) for the last 50 % to settle.
